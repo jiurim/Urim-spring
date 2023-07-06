@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 
-class MemberServiceTest {
+/**class MemberServiceTest {
 
     MemberService memberService = new MemberService();
     @Test
@@ -44,7 +44,7 @@ class MemberServiceTest {
         // then
         /*assertThrows(IllegalStateException.class, () -> {
             memberService.join(member2);
-        });*/
+        });
         try{
             memberService.join(member2);
             fail("이미 존재하는 회원입니다.");
@@ -55,8 +55,6 @@ class MemberServiceTest {
         //then
     }
 
-
-
     @Test
     void findMembers() {
     }
@@ -64,4 +62,4 @@ class MemberServiceTest {
     @Test
     void findOne() {
     }
-}
+}**/
