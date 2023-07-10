@@ -6,14 +6,15 @@ import Urim.Urimspring.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import java.util.Optional;
-@Service
+
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    @Autowired
+
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
@@ -32,7 +33,11 @@ public class MemberService {
           });
          */
         validateDuplicateMember(member);
-        memberRepository.save(member);
+        try {
+            memberRepository.save(member);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return  member.getId();
     }
 

@@ -1,7 +1,14 @@
 package Urim.Urimspring.controller;
+import Urim.Urimspring.domain.Member;
 import Urim.Urimspring.service.MemberService;
+import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import java.util.List;
+
 
 @Controller
 public class MemberController {
@@ -22,6 +29,30 @@ public class MemberController {
     // 따라서 이렇게 해놓으면 spring이 뜰 때 Controller service repository를 가지고 올라옴
     // controller와 service를 연결시켜줘야하는데 이때 연결시킬 때 Autowired를 쓰면 membercontroller가 생성될 때
     // spring bean에 등록되어 있는 service 객체를 가져다가 넣어줌 이것이 바로 dependency injection(의존관계)
+
+    @GetMapping("/members/new")
+    public String createForm(){
+        return "members/createMemberForm";
+    }
+    //url에 직접 치는걸 get방식으로 mapping됨
+
+    @PostMapping("/members/new")
+    public String create(MemberForm form){
+        Member member = new Member();
+        member.setName(form.getName());
+        
+        memberService.join(member);
+
+        return "redirect:/";
+    }
+    //보통 조회할 떄 get 그리고 데이터를 등록할 땐 post를 씀
+    
+    @GetMapping("/members")
+    public String list(Model model){
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members",members);
+        return "members/memberList";
+    }
 
 
 

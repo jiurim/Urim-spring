@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div class="container">
+
+  <form action = "/members/new" method="post">
+    <div class = "form-group">
+      <label for = "name">이름</label>
+      <input type="text" id="name" name="name" placeholder="이름을 입력하세요">
+      <!-- name에 spring이라고 입력하면 등록을 누르면 action url으로 post방식으로 넘어와서 memberController로 넘어가서 postMapping으로-->
+    </div>
+    <button type="submit">등록</button>
+  </form>
+  <!--form은 값을 입력할 수 있는 html-->
+
+</div>
+
+</body>
+</html>
