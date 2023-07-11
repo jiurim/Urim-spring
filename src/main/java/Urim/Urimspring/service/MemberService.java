@@ -3,11 +3,13 @@ package Urim.Urimspring.service;
 import Urim.Urimspring.domain.Member;
 import Urim.Urimspring.repository.MemberRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional // 항상 데이터를 저장하고 변경할 때 필요한 Transactional이 필요함
 public class MemberService {
     private final MemberRepository memberRepository;
 
@@ -24,24 +26,15 @@ public class MemberService {
         //Optional<Member> result = memberRepository.findByName(member.getName());
         //그런데 이렇게 하면 안이쁨
         //따라서 이렇게 하면 좋음
-        /*memberRepository.findByName(member.getName())
-                .ifPresent(m -> {
-            throw new IllegalStateException("이미 존재하는 회원");
-          });
-         */
-        validateDuplicateMember(member);
-        try {
-            memberRepository.save(member);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return  member.getId();
+        validateDuplicateMember(member); //중복 회원 검증
+        memberRepository.save(member);
+        return member.getId();
     }
 
-    private void validateDuplicateMember(Member member){
+    private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
                 .ifPresent(m -> {
-                    //throw new IllegalAccessException("이미 존재하는 회원입니다");
+                    throw new IllegalStateException("이미 존재하는 회원입니다.");
                 });
     }
 
